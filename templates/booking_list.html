@@ -23,24 +23,25 @@
         <h1 id="title">Lista de reserva</h1>
     </header>
     <main>
-        <table class="list centrado" >
+        <table class="list centeredAtNucleo" >
             <thead>
                 <tr>
                     <th>Establecimiento</th>
                     <th>Fecha de la reserva</th>
                     <th>Fecha_prevista</th>
                     <th>Hora_prevista</th>
+                    <th>Personas</th>
                 </tr>
             </thead>
-            {% for reserva in reservas %}
+            {% for booking in booking %}
             <tr>
-                <td>{{ reserva[1] }}</td>
-                <td>{{ reserva[2] }}</td>
-                <td>{{ reserva[3] }}</td>
-                <td>{{ reserva[4] }}</td>
+                <td>{{ booking[1] }}</td>
+                <td>{{ booking[2] }}</td>
+                <td>{{ booking[3] }}</td>
+                <td>{{ booking[4] }}</td>
                 <td>
-                    <a class ="btn" href="/reserva/editar{{ reserva[0] }}">Editar</a>
-                    <a class ="btn" href="/reserva/cancelar{{ reserva[0] }}">Cancelar</a>
+                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">Editar</a>
+                    <a class ="btn" href="/booking/cancel/{{ booking[0] }}">Cancelar</a>
                 </td>
             </tr>
             {% endfor %}
