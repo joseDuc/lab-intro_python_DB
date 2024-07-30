@@ -12,7 +12,7 @@
 <body>
     <header>
         <div id = "header-nav">
-            <img src="../static/img/el_churrete.png" alt="">
+            <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="">
             <ul class="header-nav-links">
                 <a class="btn" href="/booking/list/">Lista</a>
             </ul>
@@ -21,23 +21,23 @@
         <h1 id="title">Agregar reservas</h1>
     </header>
     <main>
-        <form action="/booking/add/" metdod='post' >
-            <label for="establecimiento">Establecimiento</label>
-            <input id="establecimiento" name ="establecimiento"  disabled ="true" type="number" value=1>
+        <form action="/booking/add/" metdod="POST" >
+            <label for="establishment">Establecimiento</label>
+            <input id="establishment" name ="establishment" disabled ="true" type="number" value=1>
             <label for="id">Reserva</label>
             <input id="id" name ="id" disabled ="true" type="number">
             <label for="contact">Contacto</label>
-            <input id="contact" name="contact"  type="text" requeried>
+            <input id="contact" name="contact" type="text" requeried>
             <label for="email">Email</label>
-            <input id="email" name="email"  type="email" requeried>
+            <input id="email" name="email" type="email" requeried>
             <label for="phone">Teléfono</label>
             <input id="phone" name="phone"  type="number">
             <label for="expectedDate">Fecha prevista</label>
-            <input id="expectedDate" name="expectedDate"  type="date" requeried>
+            <input id="expectedDate" name="expectedDate" type="date" requeried>
             <label for="expectedHour">Hora prevista</label>
-            <input id="expectedHour" name="expectedHour"  type="time" requeried>
+            <input id="expectedHour" name="expectedHour" type="time" requeried>
             <label for="people">Plazas</label>
-            <input id="people" name="people"  type="number" requeried>
+            <input id="people" name="people" type="number" requeried>
             <input type="submit" value="Agregar">
 
         </form>

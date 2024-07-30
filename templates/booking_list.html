@@ -7,30 +7,30 @@
     <link
     rel="stylesheet"
     href="{{url_for('static', filename='css/global.css')}}"/>
-    <link
-    rel="stylesheet"
-    href="{{url_for('static', filename='css/booking_list.css')}}"/>
+    
 </head>
 <body>
     <header>
         <div id = "header-nav">
-            <img src=" ./static/img/el_churrete.png" alt="?????????????">
+            <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
             </ul>
-           
         </div>
-        <h1 id="title">Lista de reserva</h1>
+        
     </header>
     <main>
-        <table class="list centeredAtNucleo" >
+        <h1 id="title">Lista de reserva</h1>
+        <table class="list" >
             <thead>
                 <tr>
                     <th>Establecimiento</th>
-                    <th>Fecha de la reserva</th>
+                    <th>Fecha contacto</th>
                     <th>Fecha_prevista</th>
                     <th>Hora_prevista</th>
                     <th>Personas</th>
+                    <th>Contacto</th>
+                    <th>Email</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -40,8 +40,11 @@
                 <td>{{ booking[2] }}</td>
                 <td>{{ booking[3] }}</td>
                 <td>{{ booking[4] }}</td>
+                <td>{{ booking[5] }}</td>
+                <td>{{ booking[7] }}</td>
+                <td>{{ booking[8] }}</td>
                 <td>
-                    <a class ="btn" href= "/booking/edit/{{ booking[0] }}">Editar</a>
+                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">Editar</a>
                     <a class ="btn" href="/booking/cancel/{{ booking[0] }}">Cancelar</a>
                 </td>
             </tr>
