@@ -49,9 +49,9 @@ primary key(id),
 unique idx_floor_name (id_floor,name)
 );
 
-create table diningTableEstate(
+create table diningTableState(
 id tinyint unsigned auto_increment,
-name varchar(20),
+name varchar(20) not null unique,
 primary key (id)
 );
 
@@ -59,11 +59,11 @@ primary key (id)
 create table diningTable(
 id smallint unsigned auto_increment,
 id_zone smallint unsigned,
-id_diningTableEstate tinyint unsigned,
+id_diningTableState tinyint unsigned,
 name varchar(20),
 people tinyint unsigned,
 constraint fk_id_zone_diningTable foreign key(id_zone) references zone(id),
-constraint fk_id_diningTableEstate_diningTable foreign key(id_diningTableEstate) references diningTableEstate(id),
+constraint fk_id_diningTableState_diningTable foreign key(id_diningTableState) references diningTableState(id),
 primary key(id),
 unique idx_zone_name (id_zone,name)
 );
@@ -128,13 +128,13 @@ constraint fk_id_booking_account foreign key (id_booking) references booking(id)
 index idx_id_booking_account (id_booking)
 );
 
-create table accountDinerTable(
+create table accountDiningTable(
 id_account int unsigned,
 id_diningTable smallint unsigned,
 expectedDate date not null,
 expectedHour time not null,
-constraint fk_id_account_accountDinerTable foreign key(id_account) references account(id),
-constraint fk_id_diningTable_accountDinerTable foreign key(id_diningTable) references diningTable(id),
+constraint fk_id_account_accountDiningTable foreign key(id_account) references account(id),
+constraint fk_id_diningTable_accountDiningTable foreign key(id_diningTable) references diningTable(id),
 primary key(id_account,id_diningTable)
 );
 
@@ -154,16 +154,16 @@ end //
 create procedure occupyDinnerTableFromAccountStarted (idAccount int)
 begin
 	-- select * from mesa where id_mesaEstado in(1,2) and id in(select id_mesa from cuentaMesa where id_cuenta=idCuenta) for update;
-	update diningTable set id_diningTableEstate=3 where id_diningTableEstate in(1,2) and  id in(
-	select id_diningTable from accountDinerTable where id_account=idAccount);
+	update diningTable set id_diningTableState=3 where id_diningTableState in(1,2) and  id in(
+	select id_diningTable from accountDiningTable where id_account=idAccount);
 end //
 -- fin procedure
 
 create procedure freeDinnerTableFromAccountFinished(idAccount int)
 begin
 	-- select * from mesa where id_mesaEstado in(2,3) and id in(select id_mesa from cuentaMesa where id_cuenta=idCuenta)  for update;
-	update diningTable set id_diningTableEstate=1 where id_diningTableEstate in(2,3) and id in(
-	select id_diningTable from accountDinerTable where id_account=idAccount);
+	update diningTable set id_diningTableState=1 where id_diningTableState in(2,3) and id in(
+	select id_diningTable from accountDiningTable where id_account=idAccount);
 end //
 -- fin procedure
 
@@ -185,9 +185,9 @@ end //
 
 create procedure bookingCancelingFromNotPresented()
 begin
-	update diningTable set id_diningTableEstate=1
-	where id_diningTableEstate=2 and id in(
-		select id_diningTable from accountDinerTable where id_account in(
+	update diningTable set id_diningTableState=1
+	where id_diningTableState=2 and id in(
+		select id_diningTable from accountDiningTable where id_account in(
 		select account.id from booking, account where not id_bookingState=3 and booking.id=account.id_booking
 		and expectedHour<date_add(current_time(), interval 20 minute ) and expectedDate<=current_date()
 		and entrydate is null)
@@ -201,8 +201,8 @@ end //
 
 CREATE procedure reservationDinerTableFromNextBooking() 
  begin
- 	update diningTable set id_diningTableEstate =2
-	where id_diningTableEstate=1 and id in (select id_diningTable from accountDinerTable 
+ 	update diningTable set id_diningTableState =2
+	where id_diningTableState=1 and id in (select id_diningTable from accountDiningTable 
 	where id_account in(select id from account 
 	where id in (select id from booking where id_bookingState=1 
 	and expectedDate=current_date()
@@ -263,8 +263,8 @@ create view vw_diningTable_free as
 select m.id , z.name as zone ,m.people , m.name, e.name as state
 from el_churrete_booking.diningTable m 
 join el_churrete_booking.zone z on z.id=m.id_zone
-join el_churrete_booking.diningTableEstate e on e.id=m.id_diningTableEstate
-where id_diningTableEstate=1
+join el_churrete_booking.diningTableState e on e.id=m.id_diningTableState
+where id_diningTableState=1
 order by z.id, m.people;
 
 
@@ -280,16 +280,16 @@ create view vw_peopleUnoccupied as
 select z.name as zone, count(m.people)
 from diningTable m 
 join zone z on z.id=m.id_zone
-where id_diningTableEstate=1
+where id_diningTableState=1
 group by z.id;
 
 create view vw_diningTableBusy as 
 select z.name as zone, m.name as diningTable, m.people, c.entrydate, c.departureDate, cm.id_account as account, c.id_booking as booking, cm.expectedDate, cm.expectedHour
 from diningTable m 
-join accountDinerTable cm on cm.id_diningTable=m.id
+join accountDiningTable cm on cm.id_diningTable=m.id
 join account c on c.id=cm.id_account
 join zone z on z.id =m.id_zone
-where id_diningTableEstate in (2,3)
+where id_diningTableState in (2,3)
 order by z.id, m.people, m.name;
 
 -- inicio una transacción al hacer una inyección de datos grande y multitabla y evitar inconsistencias de los datos
@@ -324,14 +324,14 @@ insert into zone (id_floor,name) values
 (2,'terraza');
 
 -- inserto los posibles estados de la mesa
-insert into diningTableEstate (name) values
+insert into diningTableState (name) values
 ('desocupada'),
 ('reservada'),
 ('ocupada'),
 ('deshabilitada');
 
 -- inserto mesas por zona y establezco el estado en desocupada
-insert into diningTable (id_zone,name,people,id_diningTableEstate) values
+insert into diningTable (id_zone,name,people,id_diningTableState) values
 (1,'001',4,1),
 (1,'002',4,1),
 (1,'003',6,1),
@@ -373,7 +373,7 @@ insert into booking (id_establishment, id_bookingState, expectedDate, expectedHo
 (1, 1, current_date(), '14:00', 4, 'Del Río','pabloDelRio@gmail.com');
 
 
-insert into accountDinerTable (id_account,  id_diningTable, expectedDate, expectedHour) values
+insert into accountDiningTable (id_account,  id_diningTable, expectedDate, expectedHour) values
 (1,21, current_date(), '15:00'),
 (1,22, current_date(), '15:00'),
 (2,1, current_date(), '13:30'),
@@ -401,7 +401,11 @@ select * from vw_booking_Active;
 select * from vw_peopleUnoccupied;
 select * from vw_diningTableBusy;
 select IdAccountFromIdBooking(6);
- call bookingCancelingFromNotPresented;
+ -- call bookingCancelingFromNotPresented;
 
  -- cancela la reserva 8
 update booking set id_bookingState=2 where id=8;
+select * from el_churrete_booking.booking;
+
+INSERT INTO booking (id_establishment, id_bookingState, contact, email, phone, expectedDate, expectedHour, people) VALUES
+             (1, 1, 'manuel', 'amail@gmail.com', '', current_date(), '14:00', 4);
