@@ -151,7 +151,7 @@ begin
 end //
 -- fin procedure
 
-create procedure occupyDinnerTableFromAccountStarted (idAccount int)
+create procedure occupyDiningTableFromAccountStarted (idAccount int)
 begin
 	-- select * from mesa where id_mesaEstado in(1,2) and id in(select id_mesa from cuentaMesa where id_cuenta=idCuenta) for update;
 	update diningTable set id_diningTableState=3 where id_diningTableState in(1,2) and  id in(
@@ -159,7 +159,7 @@ begin
 end //
 -- fin procedure
 
-create procedure freeDinnerTableFromAccountFinished(idAccount int)
+create procedure freeDiningTableFromAccountFinished(idAccount int)
 begin
 	-- select * from mesa where id_mesaEstado in(2,3) and id in(select id_mesa from cuentaMesa where id_cuenta=idCuenta)  for update;
 	update diningTable set id_diningTableState=1 where id_diningTableState in(2,3) and id in(
@@ -167,12 +167,12 @@ begin
 end //
 -- fin procedure
 
-create procedure freeDinnerTableFromBookingCancelled(idBooking int)
+create procedure freeDiningTableFromBookingCancelled(idBooking int)
 begin
 	declare idAcc int;
 	set idAcc=(select id from account where id_booking=idBooking);
 	if idAcc>0 then
-		call freeDinnerTableFromAccountFinished(idAcc);
+		call freeDiningTableFromAccountFinished(idAcc);
 	end if;
 end //
 -- fin procedure
@@ -226,7 +226,7 @@ after update on booking
 for each row 
 begin 
 	if old.id_bookingState <> new.id_bookingState and new.id_bookingState=2 then  -- cancelada
-		call freeDinnerTableFromBookingCancelled (new.id);
+		call freeDiningTableFromBookingCancelled (new.id);
 	end if;
 end //
 -- fin trigger
@@ -236,11 +236,11 @@ after update on account
 FOR EACH row
 begin
 	if old.entrydate is null and new.entrydate>0 then 
-		call occupyDinnerTableFromAccountStarted(new.id);
+		call occupyDiningTableFromAccountStarted(new.id);
 		call bookingAccomplished(new.id);
 	end if;
 	if old.departureDate is null and new.departureDate>0 then 
-		call freeDinnerTableFromAccountFinished(new.id);
+		call freeDiningTableFromAccountFinished(new.id);
 		
 	end if;
 end //
