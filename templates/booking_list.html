@@ -9,12 +9,12 @@
     href="{{url_for('static', filename='css/global.css')}}"/>
     <link
     rel="stylesheet"
-    href="{{url_for('static', filename='css/reserva_lista.css')}}"/>
+    href="{{url_for('static', filename='css/booking_list.css')}}"/>
 </head>
 <body>
     <header>
         <div id = "header-nav">
-            <img src="../static/img/el_churrete.png" alt="">
+            <img src=" ./static/img/el_churrete.png" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
             </ul>
@@ -31,16 +31,17 @@
                     <th>Fecha_prevista</th>
                     <th>Hora_prevista</th>
                     <th>Personas</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
-            {% for booking in booking %}
+            {% for booking in bookings %}
             <tr>
                 <td>{{ booking[1] }}</td>
                 <td>{{ booking[2] }}</td>
                 <td>{{ booking[3] }}</td>
                 <td>{{ booking[4] }}</td>
                 <td>
-                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">Editar</a>
+                    <a class ="btn" href= "/booking/edit/{{ booking[0] }}">Editar</a>
                     <a class ="btn" href="/booking/cancel/{{ booking[0] }}">Cancelar</a>
                 </td>
             </tr>

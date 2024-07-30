@@ -11,7 +11,7 @@
 <body>
     <header>
         <div id = "header-nav">
-            <img src="../static/img/el_churrete.png" alt="">
+            <img src="../static/img/el_churrete.png" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
                 <a class="btn" href="/booking/list">Lista</a>
@@ -21,8 +21,25 @@
         <h1 id="title">Form reserva</h1>
     </header>
     <main>
-        <Form >
-            
+        <Form  action="/booking/edited/10" method="post">
+            <label for="establecimiento">Establecimiento</label>
+            <input id="establecimiento" name ="establecimiento"  disabled ="true" type="number" value=1>
+            <label for="idReserva">Reserva</label>
+            <input id="idReserva" name ="idReserva" disabled ="true" type="number" value="{{booking.id}}">
+            <label for="contact">Contacto</label>
+            <input id="contact" name ="contact" type="text" value="{{booking.contact}}">
+            <label for="email">Email</label>
+            <input id="email" name ="email" type="email" value="{{booking.email}}">
+            <label for="phone">Teléfono</label>
+            <input id="phone" name ="phone" type="number" value="{{booking.phone}}">
+            <label for="expectedDate">Fecha prevista</label>
+            <input id="expectedDate" name ="expectedDate" type="date" value="{{booking.expectedDate}}">
+            <label for="expectedHour">Hora prevista</label>
+            <input id="expectedHour" name ="expectedHour" type="time"  value="{{booking.expectedHour}}">
+            <label for="people">Plazas</label>
+            <input id="people" name ="people" type="number" value="{{booking.people}}">
+
+            <input type="submit" value ="Guardar">
         </Form>
     </main>
     <footer>

@@ -101,13 +101,14 @@ create table booking (
 id int unsigned auto_increment,
 id_establishment smallint unsigned not null,
 id_bookingState tinyint unsigned not null,
-contact varchar(100),
-email varchar(100),
+contact varchar(100) not null,
+email varchar(100) not null,
 phone varchar(20),
-contactDate datetime not null,
+contactDate datetime not null default now(),
 expectedDate date not null,
 expectedHour time not null,
 people smallint not null,
+canceledReason varchar(100),
 primary key(id),
 constraint fk_id_establishment_booking foreign key (id_establishment) references establishment(id),
 constraint fk_id_bookingState_booking foreign key (id_bookingState) references bookingState(id)
@@ -192,7 +193,7 @@ begin
 		and entrydate is null)
 	);
 	
-	update booking, account set id_bookingState=2
+	update booking, account set id_bookingState=2, canceledReason='autómatic'
 	where id_bookingState=1 and booking.id =account.id_booking and expectedDate<=current_date()
 	and expectedHour<date_add(current_time(), interval 20 minute )
 	and entrydate is null;
@@ -359,17 +360,17 @@ insert into bookingState (name) values
 ('cancelada'),
 ('consumada');
 
-insert into booking (id_establishment, contactDate, expectedDate, expectedHour, people, id_bookingState, contact,email) values
-(1, now(), current_date(), '15:00', 6, 1,'Pérez','jperez@gmail.com'),
-(1, now(), current_date(), '13:30', 3, 1,'Montilla','ricardoMontilla@gmail.com'),
-(1, now(), current_date(), '14:00', 4, 1,'García','luisGarcia@gmail.com'),
-(1, now(), current_date(), '14:30', 4, 1,'Benegas','ignacioBenega@gmail.com'),
-(1, now(), current_date(), '15:20', 2, 1,'Sanchis','jperz@gmail.com'),
-(1, now(), current_date(), '14:30', 4, 1,'Blanco','lorenzoBlanco@gmail.com'),
-(1, now(), current_date(), '15:30', 2, 1,'Torres','angelTorres@gmail.com'),
-(1, now(), current_date(), '13:30', 5, 1,'Flores','pedroTorres@gmail.com'),
-(1, now(), current_date(), '16:00', 4, 1,'Reyes','manuelReyes@gmail.com'),
-(1, now(), current_date(), '14:00', 4, 1,'Del Río','pabloDelRio@gmail.com');
+insert into booking (id_establishment, id_bookingState, expectedDate, expectedHour, people, contact, email) values
+(1, 1, current_date(), '15:00', 6, 'Pérez','jperez@gmail.com'),
+(1, 1, current_date(), '13:30', 3, 'Montilla','ricardoMontilla@gmail.com'),
+(1, 1, current_date(), '14:00', 4, 'García','luisGarcia@gmail.com'),
+(1, 1, current_date(), '14:30', 4, 'Benegas','ignacioBenega@gmail.com'),
+(1, 1, current_date(), '15:20', 2, 'Sanchis','jperz@gmail.com'),
+(1, 1, current_date(), '14:30', 4, 'Blanco','lorenzoBlanco@gmail.com'),
+(1, 1, current_date(), '15:30', 2, 'Torres','angelTorres@gmail.com'),
+(1, 1, current_date(), '13:30', 5, 'Flores','pedroTorres@gmail.com'),
+(1, 1, current_date(), '16:00', 4, 'Reyes','manuelReyes@gmail.com'),
+(1, 1, current_date(), '14:00', 4, 'Del Río','pabloDelRio@gmail.com');
 
 
 insert into accountDinerTable (id_account,  id_diningTable, expectedDate, expectedHour) values

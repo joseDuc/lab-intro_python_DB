@@ -41,6 +41,10 @@ main{
         overflow: auto;
         white-space: nowrap;
     }
+    form{
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .centeredAtNucleo {
