@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de reservas</title>
+    <link
+    rel="stylesheet"
+    href="{{url_for('static', filename='css/global.css')}}"/>
+    <link
+    rel="stylesheet"
+    href="{{url_for('static', filename='css/reserva_lista.css')}}"/>
+</head>
+<body>
+    <header>
+        <div id = "header-nav">
+            <img src="../static/img/el_churrete.png" alt="">
+            <ul class="header-nav-links">
+                <a class="btn" href="/">Home</a>
+            </ul>
+           
+        </div>
+        <h1 id="title">Lista de reserva</h1>
+    </header>
+    <main>
+        <table class="list centrado" >
+            <thead>
+                <tr>
+                    <th>Establecimiento</th>
+                    <th>Fecha de la reserva</th>
+                    <th>Fecha_prevista</th>
+                    <th>Hora_prevista</th>
+                </tr>
+            </thead>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva[1] }}</td>
+                <td>{{ reserva[2] }}</td>
+                <td>{{ reserva[3] }}</td>
+                <td>{{ reserva[4] }}</td>
+                <td>
+                    <a class ="btn" href="/reserva/editar{{ reserva[0] }}">Editar</a>
+                    <a class ="btn" href="/reserva/cancelar{{ reserva[0] }}">Cancelar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+    <footer>
+        
+    </footer>
+
+    <div class="nav-burger">
+
+    </div>
+</body>
+</html>
+
+

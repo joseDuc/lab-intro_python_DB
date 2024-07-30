@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/global.css')}}"/>
+</head>
+<body>
+    <header>
+        <div id = "header-nav">
+            <img src="../static/img/el_churrete.png" alt="">
+            <ul class="header-nav-links">
+                <a class="btn" href="lista_reserva">Lista</a>
+            </ul>
+          
+        </div>
+        <h1 id="title">Gestión de reservas</h1>
+    </header>
+    <main>
+        <form action="/reserva/agregar/" >
+            <label for="contacto">Contacto</label>
+            <input  id="contacto" name="contacto"  type="text" requeried>
+            <label for="email">Email</label>
+            <input  id="email" name="email"  type="text" requeried>
+            <label for="telefono">teléfono</label>
+            <input  id="telefono" name="telefono"  type="text">
+            <label for="fechaPrevista">Fecha prevista</label>
+            <input  id="fechaPrevista" name="fechaPrevista"  type="text" requeried>
+            <label for="horaPrevista">Hora prevista</label>
+            <input  id="horaPrevista" name="horaPrevista"  type="text" requeried>
+            <label for="plazas">plazas</label>
+            <input  id="plazas" name="plazas"  type="text" requeried>
+        </form>
+    </main>
+    <footer>
+
+    </footer>
+    <div class="nav-burger">
+
+    </div>
+</body>
+</html>
