@@ -13,33 +13,34 @@
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
                 <a class="btn" href="/booking/list">Reservas</a>
+                <a class="btn" href="/account/list/">Cuentas</a>
                 <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>
         </div>
     </header>
     <main>
         <h1 id="title">Editar reserva</h1>
-        <Form  action="/booking/edited/{{booking[0]}}" method="POST">
+        <Form  action="/booking/edited/{{bookings[0]}}" method="POST">
             <label for="id">Reserva</label>
-            <input id="id" name ="id" disabled ="true" type="number" value={{booking[0]}}>
+            <input id="id" name ="id" disabled ="true" type="number" value={{bookings[0]}}>
             <label for="establishment">Establecimiento</label>
-            <input id="establishment" name ="establishment"  disabled ="true" type="number" value={{booking[1]}}>
+            <input id="establishment" name ="establishment"  disabled ="true" type="number" value={{bookings[1]}}>
             <label for="state">Estado</label>
-            <input id="state" name ="state"  disabled ="true" type="number" value={{booking[2]}}>
+            <input id="state" name ="state"  disabled ="true" type="number" value={{bookings[2]}}>
             <label for="contact">Contacto</label>
-            <input id="contact" name ="contact" type="text" value={{booking[3]}}>
+            <input id="contact" name ="contact" type="text" value={{bookings[3]}}>
             <label for="email">Email</label>
-            <input id="email" name ="email" type="email" value={{booking[4]}}>
+            <input id="email" name ="email" type="email" value={{bookings[4]}}>
             <label for="phone">Teléfono</label>
-            <input id="phone" name ="phone" type="number" value={{booking[5]}}>
+            <input id="phone" name ="phone" type="number" value={{bookings[5]}}>
             <label for="contactDate">Fecha contacto</label>
-            <input id="contactDate" name ="contactDate" disabled ="true" type="date" value={{booking[6]}}>
+            <input id="contactDate" name ="contactDate" disabled ="true" type="date" value={{bookings[6]}}>
             <label for="expectedDate">Fecha prevista</label>
-            <input id="expectedDate" name ="expectedDate" type="date" value={{booking[7]}}>
+            <input id="expectedDate" name ="expectedDate" type="date" value={{bookings[7]}}>
             <label for="expectedHour">Hora prevista</label>
-            <input id="expectedHour" name ="expectedHour" type="time"  value={{booking[8]}}>
+            <input id="expectedHour" name ="expectedHour" type="time"  value={{bookings[8]}}>
             <label for="people">Plazas</label>
-            <input id="people" name ="people" type="number" value={{booking[9]}}>
+            <input id="people" name ="people" type="number" value={{bookings[9]}}>
             <button type="submit">Guardar</button>
         </Form>
     </main>

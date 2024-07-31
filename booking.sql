@@ -118,10 +118,11 @@ constraint fk_id_bookingState_booking foreign key (id_bookingState) references b
 create table account(
 id int unsigned auto_increment,
 id_establishment smallint unsigned not null,
-id_booking int unsigned unique,
+id_booking int unsigned,
 entryDate datetime,
 departureDate datetime,
 people smallint not null,
+cancelled boolean,
 primary key(id),
 constraint fk_id_establishment_account foreign key (id_establishment) references establishment(id),
 constraint fk_id_booking_account foreign key (id_booking) references booking(id),
@@ -212,6 +213,17 @@ CREATE procedure reservationDinerTableFromNextBooking()
  end //
 -- fin procedure
  
+create procedure insertEntryDateAccount(idCuenta int)
+begin
+	update account set entryDate = now() where id=idCuenta;
+end //
+-- fin procedure
+
+create procedure insertDepartureDateAccount(idCuenta int)
+begin
+	update account set departureDate = now() where id=idCuenta;
+end //
+-- fin procedure
 
 create trigger creatingBooking 
 after insert on booking
@@ -227,6 +239,7 @@ for each row
 begin 
 	if old.id_bookingState <> new.id_bookingState and new.id_bookingState=2 then  -- cancelada
 		call freeDiningTableFromBookingCancelled (new.id);
+		update account set cancelled=true where id_booking=new.id;
 	end if;
 end //
 -- fin trigger
@@ -407,5 +420,10 @@ select IdAccountFromIdBooking(6);
 update booking set id_bookingState=2 where id=8;
 select * from el_churrete_booking.booking;
 
+
+
 INSERT INTO booking (id_establishment, id_bookingState, contact, email, phone, expectedDate, expectedHour, people) VALUES
              (1, 1, 'manuel', 'amail@gmail.com', '', current_date(), '14:00', 4);
+             
+call insertEntryDateAccount(11);
+call insertDepartureDateAccount(11);

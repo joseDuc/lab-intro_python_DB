@@ -68,7 +68,15 @@ def booking_edit(id):
                 return render_template('booking_form.html', bookings=booking)
             else:
                 return (f'No se ha encontrado la reserva {id} para editar')
-           
+
+    except:
+        return 'Error al conectar base de datos preparando edición reserva'
+
+@app.route('/booking/edit/None', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def booking_edit_none():
+    try:
+         return  redirect(url_for('booking_list'))
+        
     except:
         return 'Error al conectar base de datos preparando edición reserva'
 
@@ -91,7 +99,6 @@ def booking_edited(id):
             cursor.close()
             conn.close()
             return redirect(url_for('booking_list'))
-           
     except:
         return f'Error al conectar base de datos guardando reserva {id}'
 
@@ -120,7 +127,7 @@ def account_list():
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected():
             cursor=conn.cursor()
-            cursor.execute('SELECT * FROM account')
+            cursor.execute('SELECT * FROM account  WHERE cancelled IS NULL')
             account=cursor.fetchall()
             cursor.close()
             conn.close()
@@ -167,11 +174,11 @@ def account_edit(id):
             cursor=conn.cursor()
             query='SELECT * FROM account WHERE id = %s'
             cursor.execute(query,(id,))
-            accounts=cursor.fetchone()
+            account=cursor.fetchone()
             cursor.close()
             conn.close()
-            if accounts:
-                return (render_template('account_form_edit.html',account=accounts))
+            if account:
+                return (render_template('account_form_edit.html',accounts=account))
             else:
                 return f'No se ha encontrado la cuenta {id} para editar'
             
