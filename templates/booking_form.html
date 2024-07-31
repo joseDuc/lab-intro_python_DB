@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva Form</title>
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/global.css')}}"/>
+    <title>Booking edit</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 </head>
 <body>
     <header>
@@ -14,20 +12,20 @@
             <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
-                <a class="btn" href="/booking/list">Lista</a>
+                <a class="btn" href="/booking/list">Reservas</a>
+                <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>
-          
         </div>
-        <h1 id="title">Editar reserva</h1>
     </header>
     <main>
-        <Form  action="/booking/edited/{{booking[0]}}" method="post">
-            <label for="idReserva">Reserva</label>
-            <input id="idReserva" name ="idReserva" disabled ="true" type="number" value={{booking[0]}}>
-            <label for="establecimiento">Establecimiento</label>
-            <input id="establecimiento" name ="establecimiento"  disabled ="true" type="number" value={{booking[1]}}>
-            <label for="estado">Estado</label>
-            <input id="estado" name ="estado"  disabled ="true" type="number" value={{booking[2]}}>
+        <h1 id="title">Editar reserva</h1>
+        <Form  action="/booking/edited/{{booking[0]}}" method="POST">
+            <label for="id">Reserva</label>
+            <input id="id" name ="id" disabled ="true" type="number" value={{booking[0]}}>
+            <label for="establishment">Establecimiento</label>
+            <input id="establishment" name ="establishment"  disabled ="true" type="number" value={{booking[1]}}>
+            <label for="state">Estado</label>
+            <input id="state" name ="state"  disabled ="true" type="number" value={{booking[2]}}>
             <label for="contact">Contacto</label>
             <input id="contact" name ="contact" type="text" value={{booking[3]}}>
             <label for="email">Email</label>
@@ -42,7 +40,7 @@
             <input id="expectedHour" name ="expectedHour" type="time"  value={{booking[8]}}>
             <label for="people">Plazas</label>
             <input id="people" name ="people" type="number" value={{booking[9]}}>
-            <input type="submit" value ="Guardar">
+            <button type="submit">Guardar</button>
         </Form>
     </main>
     <footer>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account new</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+</head>
+<body>
+    <header>
+        <div id = "header-nav">
+            <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
+            <ul class="header-nav-links">
+                <a class="btn" href="/">Home</a>
+                <a class="btn" href="/booking/list">Reservas</a>
+                <a class="btn" href="/account/list">Cuentas</a>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <h1 id="title">Agregar cuenta</h1>
+        <Form  action="/account/add/" method="POST">
+            <label for="idBooking">Reserva</label>
+            <input id="idBooking" name ="idBooking" disabled ="true" type="number" >
+            <label for="establishment">Establecimiento</label>
+            <input id="establishment" name ="establishment"  disabled ="true" type="number" >
+            <label for="entryDate">Fecha entrada</label>
+            <input id="entryDate" name ="entryDate" disabled ="true" type="date">
+            <label for="departureDate">Fecha salida</label>
+            <input id="expectedHour" name ="expectedHour" disabled ="true" type="date">
+            <label for="people">Plazas</label>
+            <input id="people" name ="people" type="number">
+            <button type="submit">Agregar</button>
+        </Form>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking List</title>
+    <title>Account list</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
-    
 </head>
 <body>
     <header>
@@ -13,38 +12,34 @@
             <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
-                <a class="btn" href="/account/list/">Cuentas</a>
+                <a class="btn" href="/booking/list/">Reservas</a>
                 <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>
         </div>
     </header>
     <main>
-        <h1 id="title">Lista de reserva</h1>
+        <h1 id="title">Lista de cuenta</h1>
         <table class="list" >
             <thead>
                 <tr>
                     <th>Establecimiento</th>
-                    <th>Fecha contacto</th>
-                    <th>Fecha prevista</th>
-                    <th>Hora prevista</th>
+                    <th>Fecha entrada</th>
+                    <th>Fecha salida</th>
                     <th>Personas</th>
-                    <th>Contacto</th>
-                    <th>Email</th>
+                    <th>Reserva</th>
                     <th>Acción</th>
                 </tr>
             </thead>
-            {% for booking in bookings %}
+            {% for account in accounts %}
             <tr>
-                <td>{{ booking[1] }}</td>
-                <td>{{ booking[2] }}</td>
-                <td>{{ booking[3] }}</td>
-                <td>{{ booking[4] }}</td>
-                <td>{{ booking[5] }}</td>
-                <td>{{ booking[7] }}</td>
-                <td>{{ booking[8] }}</td>
+                <td>{{ account[1] }}</td>
+                <td>{{ account[3] }}</td>
+                <td>{{ account[4] }}</td>
+                <td>{{ account[5] }}</td>
+                <td>{{ account[2] }}</td>
                 <td>
-                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">Editar</a>
-                    <a class ="btn" href="/booking/cancel/{{ booking[0] }}">Cancelar</a>
+                    <a class ="btn" href="/account/edit/{{ account[0] }}">Editar</a>
+                    <a class ="btn" href="/booking/edit/{{ account[2] }}">Reserva</a>
                 </td>
             </tr>
             {% endfor %}
@@ -53,11 +48,5 @@
     <footer>
         
     </footer>
-
-    <div class="nav-burger">
-
-    </div>
 </body>
 </html>
-
-

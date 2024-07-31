@@ -4,24 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Reservas</title>
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/global.css')}}"/>
+    <title>Booking start</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 </head>
 <body>
     <header>
         <div id = "header-nav">
             <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="">
             <ul class="header-nav-links">
-                <a class="btn" href="/booking/list/">Lista</a>
+                <a class="btn" href="/booking/list/">Reservas</a>
+                <a class="btn" href="/account/list/">Cuentas</a>
+                <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>
-          
         </div>
-        <h1 id="title">Agregar reservas</h1>
     </header>
     <main>
-        <form action="/booking/add/" metdod="POST" >
+        <h1 id="title">Agregar reservas</h1>
+        <form action="/booking/add/" method="POST">
             <label for="establishment">Establecimiento</label>
             <input id="establishment" name ="establishment" disabled ="true" type="number" value=1>
             <label for="id">Reserva</label>
@@ -38,7 +37,7 @@
             <input id="expectedHour" name="expectedHour" type="time" requeried>
             <label for="people">Plazas</label>
             <input id="people" name="people" type="number" requeried>
-            <input type="submit" value="Agregar">
+            <button type="submit">Agregar</button>
 
         </form>
     </main>

@@ -37,16 +37,19 @@ main{
     align-items: center;
     
     .list{
-        width: 90%;
+        width: 100%;
         height:300px;
         display: block;
         overflow: auto;
         white-space: nowrap;
+        border: 1px solid;
+ 
         th{
             border: 2px solid;
             font-weight: bold;
             padding-right: 50px;
         }
+
     }
     form{
         margin-top: 20px;
@@ -54,15 +57,26 @@ main{
         display: flex;
         flex-direction: column;
         input{
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
-        input[type='submit']{
+        button[type='submit']{
             margin-top: 10px;
             padding: 5px;
         }
     }
 }
-
+.btn{
+    text-decoration: none;
+    background-color: cadetblue;
+    color: white;
+    width: 100px;
+    min-width: 100px;
+    margin-right: 5px;
+    text-align: center;
+}
+.btn:hover{
+    text-decoration: underline;
+}
 .centeredAtNucleo {
     top: 0;
     left: 0;

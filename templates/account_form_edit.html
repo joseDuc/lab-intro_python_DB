@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account edit</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+</head>
+<body>
+    <header>
+        <div id = "header-nav">
+            <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
+            <ul class="header-nav-links">
+                <a class="btn" href="/">Home</a>
+                <a class="btn" href="/account/list">Cuentas</a>
+                <a class="btn" href="/account/new/">Nueva cuenta</a>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <h1 id="title">Editar cuenta</h1>
+        <Form  action="/account/edited/{{accounts[0]}}" method="POST">
+            <label for="id">Cuenta</label>
+            <input id="id" name ="id" disabled ="true" type="number" value={{accounts[0]}}>
+            <label for="establishment">Establecimiento</label>
+            <input id="establishment" name ="establishment"  disabled ="true" type="number" value={{accounts[1]}}>
+            <label for="idBooking">Reserva</label>
+            <input id="idBooking" name ="idBooking" disabled ="true" type="number" value={{accounts[2]}}>
+            <label for="entryDate">Fecha entrada</label>
+            <input id="entryDate" name ="entryDate" disabled ="true" type="date" value={{accounts[3]}}>
+            
+            <label for="departureDate">Fecha salida</label>
+            <input id="departureDate" name ="departureDate" disabled ="true" type="date"  value={{accounts[4]}}>
+            
+            <label for="people">Plazas</label>
+            <input id="people" name ="people" type="number" value={{accounts[5]}}>
+            <button type="submit">Guardar</button>
+
+            
+            
+            
+
+        </Form>
+        <form action="/account/confirmEntry/{{ accounts[0] }}" method="POST">
+            <button type="submit">Confirmar entrada</button>
+        </form>
+        <form action="/account/confirmDeparture/{{ accounts[0] }}" method="POST">
+            <button type="submit">Confirmar salida</button>
+        </form>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
