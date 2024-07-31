@@ -30,6 +30,8 @@
                     <th>Personas</th>
                     <th>Contacto</th>
                     <th>Email</th>
+                    <th>Reserva</th>
+                    <th>Cuenta</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -43,8 +45,13 @@
                 <td>{{ booking[7] }}</td>
                 <td>{{ booking[8] }}</td>
                 <td>
-                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">Editar</a>
-                    <a class ="btn" href="/booking/cancel/{{ booking[0] }}">Cancelar</a>
+                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">{{ booking[0] }}</a>
+                </td>
+                <td>
+                    <a class ="btn" href="/account/editByIdBooking/{{ booking[0] }}">Ir</a>
+                </td>
+                <td>
+           
                 </td>
             </tr>
             {% endfor %}

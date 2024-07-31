@@ -27,10 +27,13 @@
             <input id="establishment" name ="establishment"  disabled ="true" type="number" value={{accounts[1]}}>
             <label for="idBooking">Reserva</label>
             <input id="idBooking" name ="idBooking" disabled ="true" type="number" value={{accounts[2]}}>
+
             <label for="entryDate">Fecha entrada</label>
-            <input id="entryDate" name ="entryDate" disabled ="true" type="date" value={{accounts[3]}}>
+            <input id="entryDate" name ="entryDate" disabled ="true" type="datetime" value={{accounts[3]}}>
+
             <label for="departureDate">Fecha salida</label>
-            <input id="departureDate" name ="departureDate" disabled ="true" type="date"  value={{accounts[4]}}>
+            <input id="departureDate" name ="departureDate" disabled ="true" type="datetime"  value={{accounts[4]}}>
+
             <label for="people">Plazas</label>
             <input id="people" name ="people" type="number" value={{accounts[5]}}>
             <button type="submit">Guardar</button>

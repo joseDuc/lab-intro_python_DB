@@ -127,7 +127,7 @@ def account_list():
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected():
             cursor=conn.cursor()
-            cursor.execute('SELECT * FROM account  WHERE cancelled IS NULL')
+            cursor.execute('SELECT * FROM account  WHERE cancelled IS NULL AND departureDate IS NULL')
             account=cursor.fetchall()
             cursor.close()
             conn.close()
@@ -213,6 +213,7 @@ def account_edited(id):
 @app.route('/account/editByIdBooking/<int:id>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
 def account_editByIdBooking(id):
     try:
+        print ('id=',id)
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             query='SELECT * FROM account WHERE id_booking=%s'
@@ -221,8 +222,9 @@ def account_editByIdBooking(id):
             account=cursor.fetchone()
             cursor.close()
             conn.close()
+            print ('conexion cerrada')
             if account:
-               return render_template('account_form_edit', accounts=account)
+               return render_template('account_form_edit.html', accounts=account)
             else:
                 return (f'No se ha encontrado la cuenta para editar con id_reserva {id} ')
             
