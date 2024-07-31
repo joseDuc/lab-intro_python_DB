@@ -122,7 +122,7 @@ id_booking int unsigned,
 entryDate datetime,
 departureDate datetime,
 people smallint not null,
-cancelled boolean,
+canceled boolean,
 primary key(id),
 constraint fk_id_establishment_account foreign key (id_establishment) references establishment(id),
 constraint fk_id_booking_account foreign key (id_booking) references booking(id),
@@ -189,13 +189,14 @@ begin
 	update diningTable set id_diningTableState=1
 	where id_diningTableState=2 and id in(
 		select id_diningTable from accountDiningTable where id_account in(
-		select account.id from booking, account where not id_bookingState=3 and booking.id=account.id_booking
+		select account.id from booking, account 
+		where not id_bookingState=3 and booking.id=account.id_booking
 		and expectedHour<date_add(current_time(), interval 20 minute ) and expectedDate<=current_date()
 		and entrydate is null)
 	);
-	
-	update booking, account set id_bookingState=2, canceledReason='autómatic'
-	where id_bookingState=1 and booking.id =account.id_booking and expectedDate<=current_date()
+
+	update booking, account set id_bookingState=2, canceledReason='autómatic', canceled=true
+	where booking.id =account.id_booking and expectedDate<=current_date()
 	and expectedHour<date_add(current_time(), interval 20 minute )
 	and entrydate is null;
 end //
@@ -225,6 +226,12 @@ begin
 end //
 -- fin procedure
 
+create procedure updateAccountDiningTableFromBookingChangeExpected(idAccount int, expectedDate date, expectedHour time)
+begin
+	update accountDiningTable set expectedDate=expectedDate, expectedHour=expectedHour where id_Account=idAccount;
+end //
+-- fin procedure
+
 create trigger creatingBooking 
 after insert on booking
 FOR EACH row
@@ -239,7 +246,9 @@ for each row
 begin 
 	if old.id_bookingState <> new.id_bookingState and new.id_bookingState=2 then  -- cancelada
 		call freeDiningTableFromBookingCancelled (new.id);
-		update account set cancelled=true where id_booking=new.id;
+	end if;
+	if old.expectedDate <> new.expectedDate or old.expectedHour<>new.expectedHour then 
+		call updateAccountDiningTableFromBookingChangeExpected(old.id,new.expectedDate,new.expectedHour);
 	end if;
 end //
 -- fin trigger
@@ -253,13 +262,12 @@ begin
 		call bookingAccomplished(new.id);
 	end if;
 	if old.departureDate is null and new.departureDate>0 then 
-		call freeDiningTableFromAccountFinished(new.id);
+		call freeDiningTableFromAccountFinished(IdAccountFromIdBooking(new.id));
 		
 	end if;
 end //
 -- fin trigger
-
-
+ 
 create function IdAccountFromIdBooking(idBooking int) returns int
 READS SQL DATA
 begin
@@ -305,7 +313,7 @@ join zone z on z.id =m.id_zone
 where id_diningTableState in (2,3)
 order by z.id, m.people, m.name;
 
--- inicio una transacción al hacer una inyección de datos grande y multitabla y evitar inconsistencias de los datos
+-- inicio una transacción ante una inyección de datos multitabla que necesita asegurar un estado consistente en las relaciones afectadas
 start transaction;
 
 -- inserto entidades
@@ -414,7 +422,8 @@ select * from vw_booking_Active;
 select * from vw_peopleUnoccupied;
 select * from vw_diningTableBusy;
 select IdAccountFromIdBooking(6);
- -- call bookingCancelingFromNotPresented;
+
+-- call bookingCancelingFromNotPresented; 
 
  -- cancela la reserva 8
 update booking set id_bookingState=2 where id=8;

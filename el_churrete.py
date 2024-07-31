@@ -121,13 +121,29 @@ def booking_cancel(id):
         return 'Error al conectar base de datos cancelando reserva'
 
 
+    
+@app.route('/booking/autoCancel/', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def booking_autoCancel():
+    try:
+        conn=mysql.connector.connect(**db_config)
+        if conn.is_connected:
+            cursor=conn.cursor()
+            cursor.callproc('bookingCancelingFromNotPresented')
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return redirect(url_for('booking_list'))
+    except:
+        return 'Error al conectar base de datos para hacer cancelación automática'
+    
+    
 @app.route('/account/list/')
 def account_list():
     try:
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected():
             cursor=conn.cursor()
-            cursor.execute('SELECT * FROM account  WHERE cancelled IS NULL AND departureDate IS NULL')
+            cursor.execute('SELECT * FROM account  WHERE canceled IS NULL AND departureDate IS NULL')
             account=cursor.fetchall()
             cursor.close()
             conn.close()

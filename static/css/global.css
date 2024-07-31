@@ -26,7 +26,10 @@ header{
     #header-nav{
         display: flex;
         justify-content:flex-start;
-
+        img{
+            width: 100px;
+            height: 30px;
+        }
     }
     #title{
         margin-top: 20px;
@@ -37,16 +40,7 @@ header{
         align-items: flex-end;
         margin-left: 20px;
     }
-    .btn{
-        text-decoration: none;
-        background-color: cadetblue;
-        width: 100px;
-        min-width: 100px;
-        text-align: center;
-    }
-    .btn:hover{
-        text-decoration: underline;
-    }
+
 }
 
 main{
