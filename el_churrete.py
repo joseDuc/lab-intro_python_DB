@@ -264,8 +264,8 @@ def account_confirmEntry(id):
             account=cursor.fetchone()
             cursor.close()
             conn.close()
+            return redirect(url_for('account_list'))            
 
-            return render_template('account_form_edit.html',accounts=account)
     except:
         return 'Error al conectar base de datos al confirmar cuenta_entrada'
     
@@ -286,8 +286,8 @@ def account_confirmDeparture(id):
             account=cursor.fetchone()
             cursor.close()
             conn.close()
+            return redirect(url_for('account_list'))        
 
-            return render_template('account_form_edit.html',accounts=account)
     except:
         return 'Error al conectar base de datos al confirmar cuenta_salida'
     

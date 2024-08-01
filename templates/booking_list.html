@@ -49,13 +49,19 @@
                 <td>{{ booking[7] }}</td>
                 <td>{{ booking[8] }}</td>
                 <td>
-                    <a class ="btn" href="/booking/edit/{{ booking[0] }}">{{ booking[0] }}</a>
+                    <form action="/booking/edit/{{ booking[0] }}" method="POST">
+                        <button type="submit">{{ booking[0] }}</button>
+                    </form>
                 </td>
                 <td>
-                    <a class ="btn" href="/account/editByIdBooking/{{ booking[0] }}">Ir</a>
+                    <form action="/account/editByIdBooking/{{ booking[0] }}" method="POST">
+                        <button type="submit">Editar</button>
+                    </form>
                 </td>
                 <td>
-           
+                    <form action="/booking/cancel/{{ booking[0] }}" method="POST">
+                        <button type="submit">Cancelar</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
