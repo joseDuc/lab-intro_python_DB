@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account dining table</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+</head>
+<body>
+    <header>
+        <div id = "header-nav">
+            <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
+            <ul class="header-nav-links">
+                <a class="btn" href="/">Home</a>
+                <a class="btn" href="/booking/list/">Reservas</a>
+                <a class="btn" href="/account/new/">Nueva cuenta</a>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <h1 id="title">Mesa de la cuenta</h1>
+        <table class="list" >
+            <thead>
+                <tr>
+                    <th>Establecimiento</th>
+                    <th>IdMesa</th>
+                    <th>Planta</th>
+                    <th>Zona</th>
+                    <th>Mesa</th>
+                    <th>Plazas</th>
+                    <th>Estado</th>
+                    <th>Quitar mesa</th>
+                    <th>Cuenta</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for accountDiningTable in accountDiningTables %}
+                <tr>
+                    <td>{{ accountDiningTable[0] }}</td>
+                    <td>{{ accountDiningTable[1] }}</td>
+                    <td>{{ accountDiningTable[2] }}</td>
+                    <td>{{ accountDiningTable[3] }}</td>
+                    <td>{{ accountDiningTable[4] }}</td>
+                    <td>{{ accountDiningTable[5] }}</td>
+                    <td>{{ accountDiningTable[6] }}</td>
+                    <td>
+                        <form action="/account/diningTableDel/{{account}}/{{ accountDiningTable[1] }}" method="POST">
+                            <button type="submit">{{ accountDiningTable[1] }}</button>
+                        </form>
+                    </td>
+                    <td>{{account}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </main>
+    <footer>
+        
+    </footer>
+</body>
+</html>

@@ -346,5 +346,35 @@ def account_diningTableDel(id, diningTable):
     except:
         return 'Error al conectar base de datos al listar mesa de la cuenta'
     
+    
+@app.route('/account/diningTable/<int:id>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def account_diningTable(id):
+    try:
+        conn=mysql.connector.connect(**db_config)
+        if conn.is_connected:
+            cursor=conn.cursor()
+            print ('execute id ' , id)
+            
+            # query = '''
+            #     'SELECT em.name as establishment ,dt.id as idTable ,f.name as planta, z.name as zona, dt.name as mesa, dt.people, e.name as state 
+            #     FROM accountDiningTable at
+            #     join diningTable dt on dt.id=at.id_diningTable
+            #     join zone z on z.id=dt.id_zone
+            #     join floor f on f.id=z.id_floor
+            #     join establishment em on em.id=f.id_establishment
+            #     join diningTableState e on e.id=dt.id_diningTableState
+            #     WHERE id_account = 4
+            #     order by em.name, f.value, z.name, dt.name, dt.people
+            # '''
+            query='SELECT * FROM accountDiningTable WHERE id_account=%s'
+            cursor.execute(query,(id,))
+            accountDiningTable=cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template('account_diningTable.html', accountDiningTables=accountDiningTable, account=id )
+    except:
+        return 'Error al conectar base de datos al listar mesa de la cuenta'
+    
+    
 if __name__ == '__main__':
     app.run(debug=True)

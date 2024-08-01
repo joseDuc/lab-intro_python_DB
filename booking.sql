@@ -500,3 +500,4 @@ call insertDepartureDateAccount(11);
 -- call cancelAccountFromCancelingBooking(12);
 
 select * from vw_diningtable_free;
+
