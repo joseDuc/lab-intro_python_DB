@@ -2,13 +2,13 @@
 
 ### Sobre mí
 
-        Tengo 61 años y he pasado los últimos veintipico de años programando primero en Visual Basic 6.0 y los últimos 4 años dessarrollando en Visual Basic .NET. He trabajado normalmente con Sql Server para la gestión de bases de datos.
+        Tengo 61 años y he pasado los últimos veintipico de años programando primero en Visual Basic 6.0 y los últimos 4 años desarrollando en Visual Basic .NET. He trabajado normalmente con Sql Server para la gestión de bases de datos.
 
         Mi esperiencia en la web no es muy extensa. Creé un servicio de presupuestos en línea para la empresa donde trabajé 21 años y que desde el Mayo de este año canceló mi contrato por un severo ERE.
 
 ### Objetivo de la aplicación
 
-    Este software permite acceder al entorno de datos de las reservas de un restaurante y gestionar su movimiento.
+    Este software permite acceder al entorno de datos de las reservas de un restaurante y gestionar sus movimientos.
 
     He preferido este tema, porque me llamó la atención la mecánica producida al sincronizar los datos de varias relaciones y por la necesidad de mantener una coherencia permanente de los datos, en este caso utilizando los triggers y procedimientos en mySql.
 
@@ -21,13 +21,13 @@
 - ### Flask
         En la inyección de datos desde back-end en los elementos HTML a través de listas y formularios antes de su salida.
 - ### HTML.5 
-        En la maquetación de los diferentes formularios y listas que se precisan para manipular los datos y navegar mediante el navegador que facilita cada página, por todo su ámbito.
+        En la maquetación de los diferentes formularios y listas que se precisan para manipular los datos y navegar por todo su ámbito mediante el navegador que facilita cada página.
 - ### CSS.3 
         Para conseguir un centrado visual de los objetos sin pretensión decorativa en este caso.
 - ### ECMAScript 2023 de Node.js 'v20.14.0'
-        Lenguaje para programar, algunas de las acciones de ámbito local dentro del alcance de cada páginas.
+        Lenguaje para programar algunas de las acciones de ámbito local dentro del alcance de cada página.
 - ### GitHub
-        Para publicar el proyecto en repositorios compartidos para facilitar el acceso periódicamente a otros colaboradores.
+        Para publicar el proyecto en repositorios compartidos que permiten el acceso periódico a otros colaboradores.
 
 ### Esquema del modelo relacional de datos del proyecto
         En esta imagen se aprecia el desarrollo del concepto de las reservas de un restaurante.
@@ -54,7 +54,7 @@
 
         La primera tarea del back es preparar la configuración de conexión a datos.
 
-        El inicio de la aplicación, es la página principal que se sirve en el primer contacto con el usuario, está preparada con un formulario de nueva reserva. Es el inicio del preceso, crear reservas.
+        El inicio de la aplicación es la página principal que se sirve en el primer contacto con el usuario, está preparada con un formulario de nueva reserva. Es el inicio del preceso, crear reservas.
 
 ![imagen](/img/Main.png)
 
@@ -63,7 +63,7 @@
 ![imagen](/img/AccountNew.png)
 
         Para asignar las mesas de la cuenta, el formulario posee un enlace para acceder a la lista de mesas desocupadas. Desde esta lista se pueden ir asignando una a una las mesas precisas.
-        Para ver las mesas asignadas a una cuenta determinada, desde el formulario de edición de cuenta se puede acceder desde un enlace.
+        Para ver las mesas asignadas a una cuenta determinada, desde el formulario de edición de cuenta se puede acceder mediante un enlace.
 
 ![imagen](/img/DiningTableFree.png)
 
@@ -75,7 +75,7 @@
 
 ![imagen](/img/AccountDiningTable.png)
 
-        La confirmación de entrada fuerza en caso de que exista una reserva relacionada, que esta pase ql estado de consumada. Su función como reserva, a terminado.
+        La confirmación de entrada fuerza en caso de que exista una reserva relacionada, que esta pase al estado de consumada. Su función como reserva, a terminado.
         La confirmación de salida fuerza a liberar las mesas, pasando al estado de desocupadas.
 
         La vista de datos que muestra las reservas activas, se encarga de actualizar previamente el estado de las mesas asignadas mediante la aproximación en el tiempo, utilizando un intervalo constante de comparación que va pasando las mesas candidatas al estado de reservada.
@@ -161,7 +161,7 @@
         con servicio de back-end.
         Ejercitando la abstracción en la idea del proyecto, para ir construyendo por partes la estructura.
 
-        Es tan solo un paso más para depurar los conceptos y afianzar el conocimiento fundamentales de la programación en general y en la web en particular.
+        Es tan solo un paso más para depurar los conceptos y afianzar los conocimientos fundamentales de la programación en general y en la web en particular.
 
         
         
