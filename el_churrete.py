@@ -110,8 +110,9 @@ def booking_cancel(id):
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected():
             cursor=conn.cursor()
-            query='UPDATE booking SET id_bookingState =  2  WHERE id = %s;'
-            cursor.execute(query, (id,))
+            # query='UPDATE booking SET id_bookingState =  2  WHERE id = %s;'
+            # cursor.execute(query, (id,))
+            cursor.callproc('cancelBooking',[id])
             conn.commit()
             cursor.close()
             conn.close()
@@ -293,8 +294,57 @@ def account_confirmDeparture(id):
     
     
     
+
+@app.route('/account/diningTableAssign/<int:id>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def account_diningTableAssign(id):
+    try:
+        conn=mysql.connector.connect(**db_config)
+        if conn.is_connected:
+            cursor=conn.cursor()
+            cursor.execute('SELECT * FROM vw_diningtable_free')
+            freeDiningTable=cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
+    except:
+        return 'Error al conectar base de datos al listar mesa de la cuenta'
     
     
+@app.route('/account/diningTableAdd/<int:id>/<int:idDiningTable>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def account_diningTableAdd(id,idDiningTable):
+    try:
+        conn=mysql.connector.connect(**db_config)
+        if conn.is_connected:
+            cursor=conn.cursor()
+            # cursor.execute('INSERT INTO accountDiningTable SET id_account=%s, id_diningTable=%s',(id,3))
+            args=(id,idDiningTable)
+            cursor.callproc('addDiningTableAccount',args)
+            conn.commit()
+            cursor.close
+            cursor=conn.cursor()
+            cursor.execute('SELECT * FROM vw_diningtable_free')
+            freeDiningTable=cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
+    except:
+        return 'Error al conectar base de datos al listar mesa de la cuenta'
+    
+@app.route('/account/diningTableDel/<int:id>/<int:idDiningTable>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
+def account_diningTableDel(id, diningTable):
+    try:
+        conn=mysql.connector.connect(**db_config)
+        if conn.is_connected:
+            cursor=conn.cursor()
+            cursor.execute('DELETE FROM accountDiningTable WHERE id_account=%s AND id_diningTable=%s',(id,diningTable))
+            cursor.commit()
+            cursor.execute('SELECT * FROM vw_diningtable_free')
+            freeDiningTable=cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
+    except:
+        return 'Error al conectar base de datos al listar mesa de la cuenta'
     
 if __name__ == '__main__':
     app.run(debug=True)

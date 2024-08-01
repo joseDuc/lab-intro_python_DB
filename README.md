@@ -41,3 +41,16 @@
     Para ello existe un procedimiento que resuelve las reservas no presentadas y libera las mesas que hubieran sido reservas para su uso bajo unos criterios en los intervalos de tiempo comparados en las reservas. 
 
     Existe una vista que selecciona las reservas activas y antepone este procedimiento anterior, para asegurar que la nueva lectura de la vista, arrastra las reservas adecuadas, con las citas esperadas dentro del intervalo de tiempo actual, en este caso no canceladas por el procedimiento previo de cancelación.
+
+
+
+
+
+        -¿Quién ha hecho el proyecto? Preséntate hasta dónde veas conveniente
+        -De qué va el proyecto
+        -Cuáles son las rutas habilitadas y qué hace cada ruta
+        -Diagrama ERM
+        -Funcionalidades de la web (si tiene filtros, búsquedas, login...)
+        -Justificación de la Base de datos (por qué la has hecho como la has hecho y no de    otra forma)
+        -Tecnologías utilizadas (el stack)
+        -Cualquier añadido que veas conveniente

@@ -1,0 +1,19 @@
+
+Llamar internamente a una funcion con sus parametros
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+from flask import Flask, redirect, url_for
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    # Redirigir a la función 'show_user_profile' con dos parámetros
+    return redirect(url_for('show_user_profile', username='johndoe', age=30))
+
+@app.route('/user/<username>/<int:age>')
+def show_user_profile(username, age):
+    return f'Usuario: {username}, Edad: {age}'
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -31,29 +31,31 @@
                     <th>Acción</th>
                 </tr>
             </thead>
-            {% for account in accounts %}
-            <tr>
-                <td>{{ account[1] }}</td>
-                <td>{{ account[3] }}</td>
-                <td>{{ account[4] }}</td>
-                <td>{{ account[5] }}</td>
-                <td>
-                    <form action="/booking/edit/{{ account[2] }}" method="POST">
-                        <button type="submit">{{ account[2] }}</button>
-                    </form>
-
-                </td>
-                <td>
-                    <form action="/account/edit/{{ account[0] }}" method="POST">
-                        <button type="submit">{{ account[0] }}</button>
-                    </form>
-                </td>
-                <td>
-                    <a class ="btn" href="/account/confirmEntry/{{ account[0] }}">Entrada</a>
-                    <a class ="btn" href="/account/confirmDeparture/{{ account[0] }}">Salida</a>
-                </td>
-            </tr>
-            {% endfor %}
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{ account[1] }}</td>
+                    <td>{{ account[3] }}</td>
+                    <td>{{ account[4] }}</td>
+                    <td>{{ account[5] }}</td>
+                    <td>
+                        <form action="/booking/edit/{{ account[2] }}" method="POST">
+                            <button type="submit">{{ account[2] }}</button>
+                        </form>
+    
+                    </td>
+                    <td>
+                        <form action="/account/edit/{{ account[0] }}" method="POST">
+                            <button type="submit">{{ account[0] }}</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a class ="btn" href="/account/confirmEntry/{{ account[0] }}">Entrada</a>
+                        <a class ="btn" href="/account/confirmDeparture/{{ account[0] }}">Salida</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </main>
     <footer>

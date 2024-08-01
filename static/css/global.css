@@ -55,12 +55,17 @@ main{
         overflow: auto;
         white-space: nowrap;
         border: 1px solid;
- 
+        
         th{
             border: 2px solid;
             font-weight: bold;
             padding-right: 50px;
             margin-right: 20px;
+        }
+        td{
+            input[type='checkbox']{
+                width: 100%;;
+            }
         }
 
         form{
@@ -71,6 +76,7 @@ main{
             button{
                 width: 100%;
             }
+            
         }
 
     }
