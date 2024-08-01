@@ -56,7 +56,7 @@
 
         El inicio de la aplicación es la página principal que se sirve en el primer contacto con el usuario, está preparada con un formulario de nueva reserva. Es el inicio del preceso, crear reservas.
 
-![imagen](/img/Main.png)
+![imagen](/img/BookingNew.png)
 
         No es necesario crear siempre una reseva. Hay entrada de clientes de forma espontánea. En ese caso, el navegador nos permite saltar al formulario de nueva cuenta. Requiere el número de personas para incluirlas en la cuenta y poder asignar las mesas necesarias para cubrir esas plazas.
 
