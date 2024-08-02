@@ -45,9 +45,10 @@ def booking_add():
             query="INSERT INTO booking (id_establishment, id_bookingState, contact, email, phone, expectedDate, expectedHour, people) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query, (1, 1, contact, email, phone, expectedDate, expectedHour, people))
             conn.commit()
-            print (cursor.lastrowid)
+            lastId= cursor.lastrowid
             cursor.close()
             conn.close()
+            return redirect(url_for('account_editByIdBooking', id=lastId))
             return redirect(url_for('booking_list'))
     except:
         return "Error al conectar a la base de datos agregando reserva"
@@ -189,6 +190,10 @@ def account_edit(id):
         conn =mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
+            query ='SELECT IdAccountFromIdBooking(%s)'
+            cursor.execute(query,(id,))
+            i=account=cursor.fetchone()
+            print ('idCta=',i)
             query='SELECT * FROM account WHERE id = %s'
             cursor.execute(query,(id,))
             account=cursor.fetchone()
@@ -202,7 +207,7 @@ def account_edit(id):
     except:
         return 'Error al conectar base de datos preparando edición cuenta'
 
-    
+
 @app.route('/account/edited/<int:id>', methods=['POST'])
 def account_edited(id):
     try:
@@ -301,6 +306,7 @@ def account_diningTableAssign(id):
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
+            cursor.callproc('reservationDiningTableFromNextBooking')
             cursor.execute('SELECT * FROM vw_diningtable_free')
             freeDiningTable=cursor.fetchall()
             cursor.close()
@@ -316,7 +322,6 @@ def account_diningTableAdd(id,idDiningTable):
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
-            # cursor.execute('INSERT INTO accountDiningTable SET id_account=%s, id_diningTable=%s',(id,3))
             args=(id,idDiningTable)
             cursor.callproc('addDiningTableAccount',args)
             conn.commit()
@@ -331,18 +336,28 @@ def account_diningTableAdd(id,idDiningTable):
         return 'Error al conectar base de datos al listar mesa de la cuenta'
     
 @app.route('/account/diningTableDel/<int:id>/<int:idDiningTable>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
-def account_diningTableDel(id, diningTable):
+def account_diningTableDel(id,idDiningTable):
     try:
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
-            cursor.execute('DELETE FROM accountDiningTable WHERE id_account=%s AND id_diningTable=%s',(id,diningTable))
-            cursor.commit()
-            cursor.execute('SELECT * FROM vw_diningtable_free')
-            freeDiningTable=cursor.fetchall()
+            query ='DELETE FROM accountDiningTable WHERE id_account=%s AND id_diningTable=%s'
+            cursor.execute(query,(id,idDiningTable)) # AND id_diningTable=%s',(id,diningTable))
+            conn.commit()
+            # cursor.execute('SELECT * FROM vw_diningtable_free')
+            # freeDiningTable=cursor.fetchall()
+            # cursor.close()
+            # conn.close()
+            # return redirect('account_diningTable',id=id)
+            # return redirect(url_for('account_diningTable',id: id}) 
+            # return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
+            
+            query='SELECT * FROM accountDiningTable WHERE id_account=%s'
+            cursor.execute(query,(id,))
+            accountDiningTable=cursor.fetchall()
             cursor.close()
             conn.close()
-            return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
+            return render_template('account_diningTable.html', accountDiningTables=accountDiningTable, account=id )
     except:
         return 'Error al conectar base de datos al listar mesa de la cuenta'
     
@@ -353,8 +368,6 @@ def account_diningTable(id):
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
-            print ('execute id ' , id)
-            
             # query = '''
             #     'SELECT em.name as establishment ,dt.id as idTable ,f.name as planta, z.name as zona, dt.name as mesa, dt.people, e.name as state 
             #     FROM accountDiningTable at
@@ -363,7 +376,7 @@ def account_diningTable(id):
             #     join floor f on f.id=z.id_floor
             #     join establishment em on em.id=f.id_establishment
             #     join diningTableState e on e.id=dt.id_diningTableState
-            #     WHERE id_account = 4
+            #     WHERE id_account = %s
             #     order by em.name, f.value, z.name, dt.name, dt.people
             # '''
             query='SELECT * FROM accountDiningTable WHERE id_account=%s'

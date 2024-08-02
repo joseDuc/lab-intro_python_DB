@@ -13,6 +13,7 @@
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
                 <a class="btn" href="/booking/list/">Reservas</a>
+                <a class="btn" href="/account/list">Cuentas</a>
                 <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>
         </div>
@@ -44,11 +45,15 @@
                     <td>{{ accountDiningTable[5] }}</td>
                     <td>{{ accountDiningTable[6] }}</td>
                     <td>
-                        <form action="/account/diningTableDel/{{account}}/{{ accountDiningTable[1] }}" method="POST">
+                        <form action="/account/diningTableDel/{{account}}/{{accountDiningTable[1]}}" method="POST">
                             <button type="submit">{{ accountDiningTable[1] }}</button>
                         </form>
                     </td>
-                    <td>{{account}}</td>
+                    <td>                        
+                        <form action="/account/edit/{{account}}" method="POST">
+                            <button type="submit">{{account}}</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -165,6 +165,7 @@ begin
 	-- select * from mesa where id_mesaEstado in(2,3) and id in(select id_mesa from cuentaMesa where id_cuenta=idCuenta)  for update;
 	update diningTable set id_diningTableState=1 where id_diningTableState in(2,3) and id in(
 	select id_diningTable from accountDiningTable where id_account=idAccount);
+	update accountDiningTable set expectedDate=null, expectedHour=null where id_Account=idAccount;
 end //
 -- fin procedure
 
@@ -266,6 +267,7 @@ begin
 		update diningTable set id_diningTableState=3 where id=idDiningTable;
 	end if;
 end //
+-- fin procedure
 
 create procedure delDiningTableAccount(idAccount int, idDiningTable int)
 begin
@@ -296,21 +298,49 @@ begin
 end //
 -- fin trigger
 
+create trigger modifyingBookingExpected
+before update on booking
+for each row 
+begin 
+	if new.expectedDate is null and new.expectedHour is not null then 
+		set new.expectedDate=null;
+	end if;
+end //
+-- fin trigger
+
+create trigger deleteAccountDiningTable
+after Delete on accountDiningTable
+for each row 
+begin 
+	update diningTable set id_diningTableState=1 where id=old.id_diningTable and id_diningTableState in(2,3);
+end //
+-- fin trigger
+
+
 create trigger modifyingAccount
 after update on account
 FOR EACH row
 begin
-	if old.entrydate is null and new.entrydate>0 then 
-		call occupyDiningTableFromAccountStarted(new.id);
-		call bookingAccomplished(new.id);
+	if old.entrydate is null and new.entrydate is not null  then 
+		call occupyDiningTableFromAccountStarted(old.id);
+		call bookingAccomplished(old.id_booking);
 	end if;
-	if old.departureDate is null and new.departureDate>0 then 
-		call freeDiningTableFromAccountFinished(IdAccountFromIdBooking(new.id));
-		
+	if old.departureDate is null and new.departureDate is not null then 
+		call freeDiningTableFromAccountFinished(old.id);
 	end if;
 end //
 -- fin trigger
- 
+
+create trigger modifyingAccountDepartureDate
+before update on account
+FOR EACH row
+begin
+	if old.departureDate is null and new.entryDate is null and new.departureDate is not null then 
+		set new.departureDate=null;
+	end if;
+end //
+-- fin trigger
+
 create function IdAccountFromIdBooking(idBooking int) returns int
 READS SQL DATA
 begin
@@ -371,8 +401,8 @@ insert into entity (name,cif) values
 
 -- inserto sus establecimientos o franquicias
 insert into establishment (id_entity,name,address,email,phone) values
-(1,'Pineda 1','cl/ Los Claveles, 15 14001 Córdoba','pineda1@el_churrete.com','957 471 577'),
-(1,'Pineda 2','av/ Del Cortijo, 34 14002 Córdoba','pineda2@el_churrete.com','957 471 688');
+(1,'Pineda I','C/ Los Claveles, 15 14001 Córdoba','pineda1@el_churrete.com','957 471 577'),
+(1,'Pineda II','Av/ Del Cortijo, 34 14002 Córdoba','pineda2@el_churrete.com','957 471 688');
 
 
 -- despues de crear los establecimientos asigno el que es principal o sede de la entidad
@@ -391,7 +421,7 @@ insert into zone (id_floor,name) values
 (1,'terraza exterior'),
 (2,'central'),
 (2,'vista jardín'),
-(2,'terraza');
+(2,'terraza exterior');
 
 -- inserto los posibles estados de la mesa
 insert into diningTableState (name) values

@@ -13,6 +13,7 @@
             <img src="{{url_for('static', filename='img/el_churrete.png')}}" alt="?????????????">
             <ul class="header-nav-links">
                 <a class="btn" href="/">Home</a>
+                <a class="btn" href="/booking/list/">Reservas</a>
                 <a class="btn" href="/account/list/">Cuentas</a>
                 <a class="btn" href="/account/new/">Nueva cuenta</a>
             </ul>       
@@ -48,11 +49,15 @@
                     <td>{{ freeDiningTable[5] }}</td>
                     <td>{{ freeDiningTable[6] }}</td>
                     <td>
-                        <form action="/account/diningTableAdd/{{account}}/{{ freeDiningTable[1] }}" method="POST">
+                        <form action="/account/diningTableAdd/{{account}}/{{freeDiningTable[1]}}" method="POST">
                             <button type="submit">{{ freeDiningTable[1] }}</button>
                         </form>
                     </td>
-                    <td>{{account}}</td>
+                    <td>
+                        <form action="/account/edit/{{account}}" method="POST">
+                            <button type="submit">{{account}}</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
