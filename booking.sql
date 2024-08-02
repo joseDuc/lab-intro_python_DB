@@ -197,11 +197,16 @@ begin
 		and entrydate is null)
 	);
 
-	update booking, account set id_bookingState=2, canceledReason='autómatic', canceled=true
-	where booking.id =account.id_booking 
-	and expectedDate<=current_date()
-	and expectedHour<date_add(current_time(), interval 20 minute )
-	and entrydate is null;
+	-- update booking, account set id_bookingState=2, canceledReason='autómatic', canceled=true
+	-- where booking.id =account.id_booking 
+	-- and expectedDate<=current_date()
+	-- and expectedHour<date_add(current_time(), interval 20 minute )
+	-- and entrydate is null;
+
+	update booking set id_bookingState=2
+	where id_bookingState=1 and expectedDate <= current_date()
+	and expectedHour < date_add(current_time(), interval 20 minute);
+
 end //
 
 
@@ -233,7 +238,7 @@ end //
 create procedure cancelBooking(idBooking int )
 begin
 	if (select id from account where id_booking=idBooking and entryDate is null)>0 then 
-		update booking set id_bookingState=2 where id=idBooking and  id_bookingState=1;
+		update booking set id_bookingState=2 where id=idBooking and id_bookingState=1;
 	end if;
 end //
 -- fin procedure
@@ -527,7 +532,7 @@ call insertDepartureDateAccount(11);
 
 -- call delDiningTableAccount (10,16);
 
--- call cancelAccountFromCancelingBooking(12);
+--  call cancelAccountFromCancelingBooking(12);
 
 select * from vw_diningtable_free;
 

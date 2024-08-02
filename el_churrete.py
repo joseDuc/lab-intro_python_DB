@@ -49,7 +49,6 @@ def booking_add():
             cursor.close()
             conn.close()
             return redirect(url_for('account_editByIdBooking', id=lastId))
-            return redirect(url_for('booking_list'))
     except:
         return "Error al conectar a la base de datos agregando reserva"
     
@@ -190,10 +189,6 @@ def account_edit(id):
         conn =mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
-            query ='SELECT IdAccountFromIdBooking(%s)'
-            cursor.execute(query,(id,))
-            i=account=cursor.fetchone()
-            print ('idCta=',i)
             query='SELECT * FROM account WHERE id = %s'
             cursor.execute(query,(id,))
             account=cursor.fetchone()
@@ -244,7 +239,6 @@ def account_editByIdBooking(id):
             account=cursor.fetchone()
             cursor.close()
             conn.close()
-            print ('conexion cerrada')
             if account:
                return render_template('account_form_edit.html', accounts=account)
             else:
@@ -298,8 +292,6 @@ def account_confirmDeparture(id):
         return 'Error al conectar base de datos al confirmar cuenta_salida'
     
     
-    
-
 @app.route('/account/diningTableAssign/<int:id>', methods=['POST', 'GET', 'PUT', 'PATCH', 'DELETE'])
 def account_diningTableAssign(id):
     try:
