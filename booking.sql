@@ -397,6 +397,16 @@ and a.expectedHour>=date_add(current_time(), interval 20 minute))
 order by em.name, f.value, z.name, dt.name, dt.people);
 
 
+create view vw_accountDiningTable as 
+select e.name as establecimiento, id_DiningTable as idMesa, f.name as planta,z.name as zona,dt.name as mesa, dt.people as plazas, s.name as estado, id_account as cuenta
+from accountDiningTable ad
+join diningTable dt on dt.id=ad.id_diningTable
+join zone z on z.id=dt.id_zone
+join floor f on f.id=z.id_floor
+join establishment e on e.id=f.id_establishment
+join diningTableState s on s.id=dt.id_diningTableState;
+
+
 -- inicio una transacción ante una inyección de datos multitabla que necesita asegurar un estado consistente en las relaciones afectadas
 start transaction;
 
@@ -536,3 +546,4 @@ call insertDepartureDateAccount(11);
 
 select * from vw_diningtable_free;
 
+select * from vw_accountDiningTable where cuenta=1

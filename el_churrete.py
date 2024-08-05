@@ -334,16 +334,8 @@ def account_diningTableDel(id,idDiningTable):
         if conn.is_connected:
             cursor=conn.cursor()
             query ='DELETE FROM accountDiningTable WHERE id_account=%s AND id_diningTable=%s'
-            cursor.execute(query,(id,idDiningTable)) # AND id_diningTable=%s',(id,diningTable))
+            cursor.execute(query,(id,idDiningTable)) 
             conn.commit()
-            # cursor.execute('SELECT * FROM vw_diningtable_free')
-            # freeDiningTable=cursor.fetchall()
-            # cursor.close()
-            # conn.close()
-            # return redirect('account_diningTable',id=id)
-            # return redirect(url_for('account_diningTable',id: id}) 
-            # return render_template('diningTable_list.html', freeDiningTables=freeDiningTable, account=id )
-            
             query='SELECT * FROM accountDiningTable WHERE id_account=%s'
             cursor.execute(query,(id,))
             accountDiningTable=cursor.fetchall()
@@ -360,18 +352,7 @@ def account_diningTable(id):
         conn=mysql.connector.connect(**db_config)
         if conn.is_connected:
             cursor=conn.cursor()
-            # query = '''
-            #     'SELECT em.name as establishment ,dt.id as idTable ,f.name as planta, z.name as zona, dt.name as mesa, dt.people, e.name as state 
-            #     FROM accountDiningTable at
-            #     join diningTable dt on dt.id=at.id_diningTable
-            #     join zone z on z.id=dt.id_zone
-            #     join floor f on f.id=z.id_floor
-            #     join establishment em on em.id=f.id_establishment
-            #     join diningTableState e on e.id=dt.id_diningTableState
-            #     WHERE id_account = %s
-            #     order by em.name, f.value, z.name, dt.name, dt.people
-            # '''
-            query='SELECT * FROM accountDiningTable WHERE id_account=%s'
+            query='select * from vw_accountDiningTable where cuenta=%s'
             cursor.execute(query,(id,))
             accountDiningTable=cursor.fetchall()
             cursor.close()
